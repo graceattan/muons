@@ -3,8 +3,7 @@ from getbits import get_bits, get_lifetime
 filename = "sample.txt"
 
 with open('lifetimes.txt', 'w') as file:
-    pass
-print("Lifetimes file 'lifetimes.txt' created.")
+    print("Lifetimes file 'lifetimes.txt' created.")
 
 with open(filename, 'r') as file:
 
@@ -50,7 +49,6 @@ with open(filename, 'r') as file:
                 #resets again to search for next decay
                 current_state = "Detecting RE0"
                 DecayTimes = ["","","","",""]
-
 
 
         
