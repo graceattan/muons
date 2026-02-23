@@ -10,5 +10,4 @@ https://quarknet.org/sites/default/files/cf_6000crmdusermanual-small.pdf
 Current To Do:
 - make sure the thing works with the big thing of data
 - figure out time/bits problem
-- figure out what data to save, what data would help us identify the lines, but also all the units to calculate the rest life of the muon
 

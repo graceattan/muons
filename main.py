@@ -1,4 +1,4 @@
-from getbits import get_bits
+from getbits import get_bits, get_lifetime
 
 filename = "sample.txt"
 
@@ -17,12 +17,13 @@ with open(filename, 'r') as file:
     #2nd element of list stores RE1_Time (Word 2, Bits 0-4)
     #3rd element of list stores RE1_2_Time (Word 1)
     #4th element of list stores RE1_2_Time (Word 2, Bits
-    DecayTimes = ["","","",""]
+    #5th element of list stores muon lifetimes
+    DecayTimes = ["","","","",""]
 
     for line in file:
         if get_bits(line, 2, 7) == "1": #Trigger Event Detected, this resets all variables
             current_state = "Detecting RE0"
-            DecayTimes = ["","","",""]
+            DecayTimes = ["","","","",""]
         
         #worried about detecting RE1 before RE0, or too may lines below, but problem for later
         if current_state == "Detecting RE0":
@@ -41,12 +42,14 @@ with open(filename, 'r') as file:
                 current_state = "Decay Found"
                 DecayTimes[2] = get_bits(line, get_Time=True)
                 DecayTimes[3] = get_bits(line, 2, 0, 5)
+                DecayTimes[4] = get_lifetime(DecayTimes[0], DecayTimes[1], DecayTimes[2], DecayTimes[3])
+
                 with open('lifetimes.txt', 'a') as file:
-                    file.write(f"{DecayTimes[0]} {DecayTimes[1]} {DecayTimes[2]} {DecayTimes[3]}\n")
+                    file.write(f"{DecayTimes[0]} {DecayTimes[1]} {DecayTimes[2]} {DecayTimes[3]} {DecayTimes[4]}\n")
                 
                 #resets again to search for next decay
                 current_state = "Detecting RE0"
-                DecayTimes = ["","","",""]
+                DecayTimes = ["","","","",""]
 
 
 

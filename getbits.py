@@ -4,7 +4,6 @@
 #   - bit_num is the number of the bit in the word (beginning from 0, rightmost bit btw)
 #   - length is the number of bits to return (default is 1, will only use this for recording time 0-4 bits)
 #   - get_Time is a boolean, whether you just want me to return the first word
-
 def get_bits (line_text,word_num = 1, bit_num = 0, length = 1, get_Time = False):
 
     if(word_num < 1 or bit_num + length > 8):
@@ -19,6 +18,12 @@ def get_bits (line_text,word_num = 1, bit_num = 0, length = 1, get_Time = False)
     reversedstring = binary_string[::-1]
     return reversedstring[bit_num: bit_num + length]
 
+#get_lifetime takes in the times of RE1 and RE1_2 and calculates the lifetime of the muon in ns
+def get_lifetime(RE1_Word_Time, RE1_Bit_Time, RE1_2_Word_Time, RE1_2_Bit_Time):
+    RE1_ns = (int(RE1_Word_Time, 16)) * 40 + (int(RE1_Bit_Time, 2)/32 * 40)
+    RE2_ns = (int(RE1_2_Word_Time, 16)) * 40 + (int(RE1_2_Bit_Time, 2)/32 * 40)
+    lifetime = RE2_ns - RE1_ns
+    return lifetime
 '''
 
 #Tests
