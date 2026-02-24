@@ -8,6 +8,5 @@ This is the Link to the Manual:
 https://quarknet.org/sites/default/files/cf_6000crmdusermanual-small.pdf
 
 Current To Do:
-- make sure the thing works with the big thing of data
-- figure out time/bits problem
+- figure out why we're getting negative lifetimes
 

@@ -7,9 +7,6 @@ with open('lifetimes.txt', 'w') as file:
 
 with open(filename, 'r') as file:
 
-    RE0_Detected = False
-    RE1_Detected = False
-    RE1_2_Detected = False
     current_state = "Detecting RE0"
 
     #1st element of list stores RE1_Time (Word 1)
@@ -20,6 +17,10 @@ with open(filename, 'r') as file:
     DecayTimes = ["","","","",""]
 
     for line in file:
+
+        if len(line.split(" ")) != 16:
+            continue #skips lines that are not data
+
         if get_bits(line, 2, 7) == "1": #Trigger Event Detected, this resets all variables
             current_state = "Detecting RE0"
             DecayTimes = ["","","","",""]
@@ -33,14 +34,14 @@ with open(filename, 'r') as file:
             if get_bits(line, 4, 5) == "1": #RE1 Detected:
                 current_state = "Detecting RE1_2"
                 DecayTimes[0] = get_bits(line, get_Time=True)
-                DecayTimes[1] = get_bits(line, 2, 0, 5)
+                DecayTimes[1] = get_bits(line, 4, 0, 5)
                 continue
          
         if current_state == "Detecting RE1_2":
             if get_bits(line, 4, 5) == "1": #RE1_2 Detected:
                 current_state = "Decay Found"
                 DecayTimes[2] = get_bits(line, get_Time=True)
-                DecayTimes[3] = get_bits(line, 2, 0, 5)
+                DecayTimes[3] = get_bits(line, 4, 0, 5)
                 DecayTimes[4] = get_lifetime(DecayTimes[0], DecayTimes[1], DecayTimes[2], DecayTimes[3])
 
                 with open('lifetimes.txt', 'a') as file:
