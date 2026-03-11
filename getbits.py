@@ -22,11 +22,17 @@ def get_bits (line_text, word_num = 1, bit_num = 0, length = 1, get_Time = False
 def get_lifetime(RE1_Word_Time, RE1_Bit_Time, RE1_2_Word_Time, RE1_2_Bit_Time):
     #if(int(RE1_Bit_Time, 2) > 31 or int(RE1_2_Bit_Time, 2) > 31):
     #    print("Bit time greater than 31?")
-    RE1_ns = (int(RE1_Word_Time, 16) * 40) + (int(RE1_Bit_Time, 2)/32 * 40)
-    RE2_ns = (int(RE1_2_Word_Time, 16) * 40) + (int(RE1_2_Bit_Time, 2)/32 * 40)
-    lifetime = RE2_ns - RE1_ns
+
+    # RE1_Word_Time is the number of the 40ns interval you're in, and RE1_Bit_Time is the number of bits into that
+    # interval (0-31), so we can calculate the time in ns by multiplying the word time by 40 and then adding the
+    # bit time divided by 32 (to get the fraction of the 40ns interval) multiplied by 40
+
+
+    RE1_ns = (int(RE1_Word_Time, 16) * 40) + (int(RE1_Bit_Time, 16)/32 * 40)
+    RE1_2_ns = (int(RE1_2_Word_Time, 16) * 40) + (int(RE1_2_Bit_Time, 16)/32 * 40)
+    lifetime = RE1_2_ns - RE1_ns
     return lifetime
-'''
+
 
 #Tests
 decay_lines = ["F309594F B3 00 33 00 00 00 00 00 00000002 000000.000 000000 V 00 8 +0000",
@@ -66,6 +72,6 @@ for line in decay_lines:
     print(get_bits(line, get_Time=True),end = ", ")
 #Got: F309594F, F3095950, F3095950, F309596A, F309596A, F3334EE8, F3334EE8, F33D7599, F338FF98,
 
-'''
+
     
 
