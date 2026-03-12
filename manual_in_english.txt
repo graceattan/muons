@@ -1,3 +1,5 @@
+### NOTE: WORDS 1-9 ARE IN HEX ###
+
 word 1: number of 40ns intervals that have passed since last reset
 word 2: number of (1/32) fractions that have passed since last 40ns interval for rising edge on paddle 0
 word 3: number of (1/32) fractions that have passed since last 40ns interval for falling edge on paddle 0
@@ -5,3 +7,5 @@ word 4: number of (1/32) fractions that have passed since last 40ns interval for
 word 5: number of (1/32) fractions that have passed since last 40ns interval for falling edge on paddle 1
 word 6: number of (1/32) fractions that have passed since last 40ns interval for rising edge on paddle 2
 word 7: number of (1/32) fractions that have passed since last 40ns interval for falling edge on paddle 2
+word 8: number of (1/32) fractions that have passed since last 40ns interval for rising edge on paddle 3
+word 9: number of (1/32) fractions that have passed since last 40ns interval for falling edge on paddle 3
