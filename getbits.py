@@ -9,28 +9,36 @@ def get_bits (line_text, word_num = 1, bit_num = 0, length = 1, get_Time = False
     if(word_num < 1 or bit_num + length > 8):
         raise ValueError("Invalid word number or bit number/length combination.")
     
-    words_list = line_text.split(" ")
+    words_list = line_text.split()
+
     if get_Time:
         return words_list[0]
     
     value = int(words_list[word_num - 1], 16)
     binary_string = f'{value:08b}'
-    reversedstring = binary_string[::-1]
-    return reversedstring[bit_num: bit_num + length]
+    reversed_string = binary_string[::-1] # moves rightmost bit to leftmost position (index 0)
+    return reversed_string[bit_num: bit_num + length]
 
 #get_lifetime takes in the times of RE1 and RE1_2 and calculates the lifetime of the muon in ns
 def get_lifetime(RE1_Word_Time, RE1_Bit_Time, RE1_2_Word_Time, RE1_2_Bit_Time):
     #if(int(RE1_Bit_Time, 2) > 31 or int(RE1_2_Bit_Time, 2) > 31):
     #    print("Bit time greater than 31?")
 
-    # RE1_Word_Time is the number of the 40ns interval you're in, and RE1_Bit_Time is the number of bits into that
-    # interval (0-31), so we can calculate the time in ns by multiplying the word time by 40 and then adding the
-    # bit time divided by 32 (to get the fraction of the 40ns interval) multiplied by 40
+    # RE1_Word_Time is the number of the 40ns interval you're in, and RE1_Bit_Time
+    # is the number of bits into that interval (0-31), so we can calculate the time
+    # in ns by multiplying the word time by 40 and then adding the bit time divided
+    # by 32 (to get the fraction of the 40ns interval) multiplied by 40
+
+    RE1_Word = int(RE1_Word_Time, 16)
+    RE1_Bit = int(RE1_Bit_Time, 16)
+    RE1_2_Word = int(RE1_2_Word_Time, 16)
+    RE1_2_Bit = int(RE1_2_Bit_Time, 16)
 
 
-    RE1_ns = (int(RE1_Word_Time, 16) * 40) + (int(RE1_Bit_Time, 16)/32 * 40)
-    RE1_2_ns = (int(RE1_2_Word_Time, 16) * 40) + (int(RE1_2_Bit_Time, 16)/32 * 40)
+    RE1_ns = (RE1_Word * 40) + (RE1_Bit / 32 * 40)
+    RE1_2_ns = (RE1_2_Word * 40) + (RE1_2_Bit / 32 * 40)
     lifetime = RE1_2_ns - RE1_ns
+
     return lifetime
 
 
@@ -61,6 +69,9 @@ for line in decay_lines:
 #Got: 1, 0, 0, 1, 0, 0, 1, 0, 1,
 
 #concern - erm for the lines where word 1 goes AF than 0, um i thought the time records were chronological??
+# resolved: it's hex overflow - it goes FFFFFFFF then 00000000, so time is still chronological, but we need to
+# account for this when getting lifetimes (idk how yet tho)
+
 
 print("\nTime Test (bits 0-4): ")
 for line in decay_lines:

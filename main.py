@@ -45,7 +45,9 @@ with open(filename, 'r') as file:
                 DecayTimes[4] = get_lifetime(DecayTimes[0], DecayTimes[1], DecayTimes[2], DecayTimes[3])
 
                 with open('lifetimes.txt', 'a') as file:
-                    file.write(f"{DecayTimes[0]} {DecayTimes[1]} {DecayTimes[2]} {DecayTimes[3]} {DecayTimes[4]}\n")
+                    if 0 < DecayTimes[4] < 500: # ensures we only measure muon decays instead of time between muons
+                        print("new lifetime: " + str(DecayTimes[4]))
+                        file.write(f"{DecayTimes[0]} {DecayTimes[1]} {DecayTimes[2]} {DecayTimes[3]} {DecayTimes[4]}\n")
                 
                 #resets again to search for next decay
                 current_state = "Detecting RE0"
