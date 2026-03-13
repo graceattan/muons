@@ -29,10 +29,11 @@ def get_lifetime(RE1_Word_Time, RE1_Bit_Time, RE1_2_Word_Time, RE1_2_Bit_Time):
     # in ns by multiplying the word time by 40 and then adding the bit time divided
     # by 32 (to get the fraction of the 40ns interval) multiplied by 40
 
+    # the word is still hex, but the bit time is binary b/c we did some processing in main
     RE1_Word = int(RE1_Word_Time, 16)
-    RE1_Bit = int(RE1_Bit_Time, 16)
+    RE1_Bit = int(RE1_Bit_Time, 2)
     RE1_2_Word = int(RE1_2_Word_Time, 16)
-    RE1_2_Bit = int(RE1_2_Bit_Time, 16)
+    RE1_2_Bit = int(RE1_2_Bit_Time, 2)
 
 
     RE1_ns = (RE1_Word * 40) + (RE1_Bit / 32 * 40)
