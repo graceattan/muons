@@ -1,6 +1,6 @@
 from getbits import get_bits, get_lifetime
 
-filename = "sample.txt"
+filename = "CosmicData05_08_24.txt"
 
 with open('lifetimes.txt', 'w') as file:
     print("Lifetimes file 'lifetimes.txt' created.")
@@ -12,7 +12,7 @@ with open(filename, 'r') as file:
     #1st element of list stores RE1_Time (Word 1)
     #2nd element of list stores RE1_Time (Word 2, Bits 0-4)
     #3rd element of list stores RE1_2_Time (Word 1)
-    #4th element of list stores RE1_2_Time (Word 2, Bits
+    #4th element of list stores RE1_2_Time (Word 2, Bits 0-4)
     #5th element of list stores muon lifetimes
     DecayTimes = ["","","","",""]
 
@@ -38,17 +38,27 @@ with open(filename, 'r') as file:
                 continue
          
         if current_state == "Detecting RE1_2":
-            if get_bits(line, 4, 5) == "1": #RE1_2 Detected:
+
+            if get_bits(line, 2, 5) == "1": #RE0 Detected, this means we need to reset
+                DecayTimes = ["","","","",""]
+                if get_bits(line, 4, 5) == "1":
+                    current_state = "Detecting RE1_2"
+                    DecayTimes[0] = get_bits(line, get_Time=True)
+                    DecayTimes[1] = get_bits(line, 4, 0, 5)
+                else: 
+                    current_state = "Detecting RE1"
+                    continue
+
+            elif get_bits(line, 4, 5) == "1": #RE1_2 Detected:
                 current_state = "Decay Found"
                 DecayTimes[2] = get_bits(line, get_Time=True)
                 DecayTimes[3] = get_bits(line, 4, 0, 5)
                 DecayTimes[4] = get_lifetime(DecayTimes[0], DecayTimes[1], DecayTimes[2], DecayTimes[3])
 
                 with open('lifetimes.txt', 'a') as file:
-                    if 0 < DecayTimes[4] < 500: # ensures we only measure muon decays instead of time between muons
-                        print("new lifetime: " + str(DecayTimes[4]))
-                        file.write(f"{DecayTimes[0]} {DecayTimes[1]} {DecayTimes[2]} {DecayTimes[3]} {DecayTimes[4]}\n")
-                
+                    #print("new lifetime: " + str(DecayTimes[4]))
+                    file.write(f"{DecayTimes[0]} {DecayTimes[1]} {DecayTimes[2]} {DecayTimes[3]} {DecayTimes[4]}\n")
+        
                 #resets again to search for next decay
                 current_state = "Detecting RE0"
                 DecayTimes = ["","","","",""]

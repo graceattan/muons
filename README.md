@@ -8,5 +8,7 @@ This is the Link to the Manual:
 https://quarknet.org/sites/default/files/cf_6000crmdusermanual-small.pdf
 
 Current To Do:
-- figure out why we're getting negative lifetimes
+- figure out why we have so many lifetimes
+- figure out time buffer situation thingy
+- plot the lifetimes on a graph
 
