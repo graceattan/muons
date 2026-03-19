@@ -41,13 +41,15 @@ with open(filename, 'r') as file:
 
             if get_bits(line, 2, 5) == "1": #RE0 Detected, this means we need to reset
                 DecayTimes = ["","","","",""]
+                
                 if get_bits(line, 4, 5) == "1":
                     current_state = "Detecting RE1_2"
                     DecayTimes[0] = get_bits(line, get_Time=True)
                     DecayTimes[1] = get_bits(line, 4, 0, 5)
                 else: 
                     current_state = "Detecting RE1"
-                    continue
+                
+                continue
 
             elif get_bits(line, 4, 5) == "1": #RE1_2 Detected:
                 current_state = "Decay Found"
