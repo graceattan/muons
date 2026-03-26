@@ -41,7 +41,7 @@ with open(filename, 'r') as file:
 
             if get_bits(line, 2, 5) == "1": #RE0 Detected, this means we need to reset
                 DecayTimes = ["","","","",""]
-                
+
                 if get_bits(line, 4, 5) == "1":
                     current_state = "Detecting RE1_2"
                     DecayTimes[0] = get_bits(line, get_Time=True)
@@ -59,7 +59,8 @@ with open(filename, 'r') as file:
 
                 with open('lifetimes.txt', 'a') as file:
                     #print("new lifetime: " + str(DecayTimes[4]))
-                    file.write(f"{DecayTimes[0]} {DecayTimes[1]} {DecayTimes[2]} {DecayTimes[3]} {DecayTimes[4]}\n")
+                    if(abs(float(DecayTimes[4])) > 300):
+                        file.write(f"{DecayTimes[0]} {DecayTimes[1]} {DecayTimes[2]} {DecayTimes[3]} {DecayTimes[4]}\n")
         
                 #resets again to search for next decay
                 current_state = "Detecting RE0"
