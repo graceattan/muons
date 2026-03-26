@@ -7,7 +7,3 @@ This is the Link to the Manual:
 - Pages 29 - 31 explain Words and Bits
 https://quarknet.org/sites/default/files/cf_6000crmdusermanual-small.pdf
 
-Current To Do:
-- figure out why we have so many lifetimes
-- error is in hexadecimal conversion, big negative lifetimes
-

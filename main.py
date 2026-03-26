@@ -65,8 +65,6 @@ with open(filename, 'r') as file:
                 #resets again to search for next decay
                 current_state = "Detecting RE0"
                 DecayTimes = ["","","","",""]
-
-
         
 
 
